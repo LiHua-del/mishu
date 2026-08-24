@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" role="img" aria-label="书籍封面暂不可用">
+  <rect width="400" height="600" rx="28" fill="#e7dfd4"/>
+  <rect x="94" y="132" width="212" height="300" rx="18" fill="#f7f3ed" stroke="#cfc3b5" stroke-width="8"/>
+  <path d="M200 132v300M122 182h54M224 182h54" stroke="#c3b5a5" stroke-width="8" stroke-linecap="round"/>
+  <text x="200" y="492" text-anchor="middle" fill="#887b6e" font-family="serif" font-size="34">觅书</text>
+  <text x="200" y="534" text-anchor="middle" fill="#aa9e92" font-family="sans-serif" font-size="18">封面暂不可用</text>
+</svg>

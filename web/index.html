@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#fbfaf7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="觅书">
+  <meta name="description" content="按题材和字数，从实时榜单里发现下一本想看的小说。">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <script>
+    try { document.documentElement.dataset.accent = localStorage.getItem('mishu-accent') || 'coral'; } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="/css/app.css?v=60">
+  <title>觅书 · 发现下一本</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" type="button" data-go="discoverPage" aria-label="返回发现页">
+        <img class="brand-mark" src="/icons/logo-mark.png?v=60" alt="">
+        <span><strong>觅书</strong><small>小说发现</small></span>
+      </button>
+      <div class="appearance-controls">
+        <details class="palette-picker" id="palettePicker">
+          <summary class="round-button palette-button" role="button" aria-label="选择主题色" aria-haspopup="true" aria-expanded="false" title="选择主题色"><span aria-hidden="true"></span></summary>
+          <div class="palette-menu" role="group" aria-label="主题颜色">
+            <span>主题色</span>
+            <div>
+              <button class="palette-swatch coral" type="button" data-accent-theme="coral" aria-label="珊瑚红" title="珊瑚红"></button>
+              <button class="palette-swatch amber" type="button" data-accent-theme="amber" aria-label="琥珀橙" title="琥珀橙"></button>
+              <button class="palette-swatch sage" type="button" data-accent-theme="sage" aria-label="松叶绿" title="松叶绿"></button>
+              <button class="palette-swatch blue" type="button" data-accent-theme="blue" aria-label="湖水蓝" title="湖水蓝"></button>
+              <button class="palette-swatch plum" type="button" data-accent-theme="plum" aria-label="梅子紫" title="梅子紫"></button>
+            </div>
+          </div>
+        </details>
+        <button class="round-button" id="themeButton" type="button" aria-label="切换深色模式" title="切换深色模式">◐</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page" id="discoverPage" aria-labelledby="discoverTitle">
+        <section class="welcome-card">
+          <div>
+            <span class="welcome-note" id="welcomeNote">发现下一本</span>
+            <h1 id="discoverTitle">挑下一本<br>想看的书</h1>
+            <p>联网查书库和榜单，不必先知道书名。</p>
+          </div>
+          <img class="hero-illustration" src="/icons/hero-book-holder.png?v=60" alt="" aria-hidden="true">
+        </section>
+
+        <section class="filter-panel" id="filterPanel" aria-labelledby="filterTitle">
+          <div class="section-title-row">
+            <div><h2 id="filterTitle">选择偏好</h2><p id="filterPanelSummary">先选频道和方式，其余按需补充</p></div>
+            <div class="filter-header-actions">
+              <button class="text-button" id="resetFiltersButton" type="button">重置</button>
+              <button class="edit-filters-button" id="editFiltersButton" type="button" hidden>修改条件</button>
+            </div>
+          </div>
+
+          <div class="filter-controls" id="filterControls">
+          <div class="filter-group flow-step">
+            <div class="filter-step-head"><span>1</span><label>阅读频道</label></div>
+            <div class="audience-picker" id="audienceOptions"></div>
+          </div>
+
+          <div class="filter-group flow-step mode-section">
+            <div class="filter-step-head"><span>2</span><label>推荐方式</label></div>
+            <div class="mode-picker" id="modeOptions"></div>
+            <small class="mode-help" id="modeHelp" hidden></small>
+          </div>
+
+          <div class="filter-group flow-step">
+            <div class="filter-step-head"><span>3</span><label>内容方向</label></div>
+            <div class="chip-grid" id="genreOptions"></div>
+          </div>
+
+          <div class="filter-group subtag-group" id="subtagGroup" hidden>
+            <label>再具体一点</label>
+            <div class="segmented-scroll subtag-scroll" id="subtagOptions"></div>
+            <div class="subtag-match" id="subtagMatchOptions" hidden>
+              <span>多选时</span>
+              <button type="button" data-subtag-match="any">符合任一项</button>
+              <button type="button" data-subtag-match="all">同时符合</button>
+            </div>
+          </div>
+
+          <details class="refine-panel" id="refinePanel">
+            <summary><span class="refine-step"><b>4</b><span><strong>其他条件</strong><small id="refineSummary">篇幅不限 · 状态不限 · 全平台</small></span></span><i aria-hidden="true"></i></summary>
+
+            <div class="filter-group flow-step compact-flow-step">
+              <label>篇幅</label>
+              <div class="segmented-scroll" id="wordOptions"></div>
+            </div>
+
+            <div class="filter-group">
+              <label>状态</label>
+              <div class="segmented-scroll status-options" id="statusOptions"></div>
+            </div>
+
+            <div class="filter-group">
+              <label>来源平台</label>
+              <div class="platform-grid" id="platformOptions"></div>
+            </div>
+          </details>
+
+          <button class="discover-button" id="discoverButton" type="button">
+            <span><strong>开始推荐</strong><small id="discoverButtonHint">个性 · 全平台 · 全题材 · 6 本</small></span>
+            <b>开始</b>
+          </button>
+          <p class="learning-note" id="learningNote">明确选择会改善个性推荐。</p>
+          </div>
+        </section>
+
+        <section class="batch-section" id="batchSection" aria-labelledby="batchTitle">
+          <button class="result-filter-bar" id="resultFilterButton" type="button">
+            <span><small>本次条件</small><strong id="resultFilterSummary">男频 · 个性 · 全题材</strong></span><b>修改</b>
+          </button>
+          <div class="batch-heading">
+            <div><h2 id="batchTitle">推荐结果</h2><p id="batchMeta">开始后展示 6 本</p></div>
+            <span class="fresh-dot" id="liveStatus">尚未开始</span>
+          </div>
+
+          <div class="ai-insight" id="aiInsight" hidden>
+            <span>AI 选书分析</span>
+            <p id="aiInsightText"></p>
+          </div>
+
+          <div class="book-grid" id="bookGrid"></div>
+          <div class="empty-state" id="emptyState">
+            <span>书</span>
+            <strong>开始挑书</strong>
+            <p>每批固定 6 本。</p>
+          </div>
+
+          <div class="batch-footer" id="batchFooter" hidden>
+            <div class="selection-summary"><strong id="selectionCount">0</strong><span>本想看</span></div>
+            <button class="copy-selected" id="copySelectedButton" type="button">复制已选书名</button>
+            <button class="next-batch" id="nextBatchButton" type="button">换一批 <span>→</span></button>
+          </div>
+          <details class="source-note" id="sourceNote" hidden>
+            <summary>来源说明</summary>
+            <p id="sourceNoteText"></p>
+          </details>
+        </section>
+      </section>
+
+      <section class="page" id="libraryPage" hidden aria-labelledby="libraryTitle">
+        <header class="page-header">
+          <span>我的选择</span>
+          <h1 id="libraryTitle">书单</h1>
+          <p>选中的书可直接复制到轻悦时光搜索。</p>
+        </header>
+        <div class="library-tabs" role="tablist">
+          <button class="active" data-library-tab="want" type="button">想看 <span id="wantCount">0</span></button>
+          <button data-library-tab="read" type="button">看过 <span id="readCount">0</span></button>
+          <button data-library-tab="dislike" type="button">不想看 <span id="dislikeCount">0</span></button>
+        </div>
+        <div class="library-list" id="libraryList"></div>
+      </section>
+
+      <section class="page" id="profilePage" hidden aria-labelledby="profileTitle">
+        <header class="page-header">
+          <span>偏好分析</span>
+          <h1 id="profileTitle">我的口味</h1>
+          <p>只根据明确的想看、喜欢和不想看更新。</p>
+        </header>
+        <section class="profile-summary">
+          <div><strong id="decisionCount">0</strong><span>次明确选择</span></div>
+          <div><strong id="shownCount">0</strong><span>本查看详情</span></div>
+          <div><strong id="copiedCount">0</strong><span>次复制书名</span></div>
+        </section>
+        <section class="profile-card">
+          <div class="section-title-row"><div><h2 id="tasteTitle">偏好数据不足</h2><p id="profileConfidence">完成几次明确选择后，这里会显示偏好趋势。</p></div><span class="profile-badge" id="profileConfidenceBadge">数据不足</span></div>
+          <div class="taste-list" id="tasteList"></div>
+        </section>
+        <section class="profile-card plain-card" id="avoidCard" hidden>
+          <h2>降低推荐</h2>
+          <p id="avoidList"></p>
+        </section>
+        <section class="profile-card plain-card">
+          <h2>推荐优化机制</h2>
+          <p>想看、喜欢和不想看影响最大；看过只用于避免重复。</p>
+        </section>
+      </section>
+
+      <section class="page" id="settingsPage" hidden aria-labelledby="settingsTitle">
+        <header class="page-header">
+          <span>推荐、同步与维护</span>
+          <h1 id="settingsTitle">设置</h1>
+          <p>推荐、同步和记录管理。</p>
+        </header>
+        <section class="ai-config-card settings-group" id="recommendationSettings">
+          <div class="settings-group-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13"></path></svg><span>推荐与智能</span></div>
+          <label class="setting-row">
+            <span><strong>使用 AI 增强推荐</strong><small id="aiStatus">正在检查 AI 配置</small></span>
+            <input id="aiToggle" type="checkbox">
+          </label>
+          <button class="setting-row" id="sourceHealthButton" type="button"><span><strong>公开来源状态</strong><small>候选池与页面可用性</small></span><svg class="row-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+          <div class="source-health-list" id="sourceHealthList" hidden></div>
+          <details class="ai-connect">
+            <summary><span>配置自己的 AI API <button class="info-tip" type="button" aria-label="AI 配置说明" aria-expanded="false" data-tip="密钥不会写入浏览器备份或跨设备同步；未配置时仍可使用基础推荐。">!</button></span><b id="aiConfigBadge">未配置</b></summary>
+            <div class="ai-form">
+              <label><span>API 地址</span><input id="aiApiUrl" type="url" inputmode="url" autocomplete="url" placeholder="https://api.example.com/v1"></label>
+              <label><span>模型名称</span><input id="aiModel" type="text" autocomplete="off" placeholder="例如 gpt-4.1-mini"></label>
+              <label><span>API 密钥</span><input id="aiApiKey" type="password" autocomplete="new-password" placeholder="首次配置时填写"></label>
+            </div>
+            <div class="ai-form-actions">
+              <button id="aiSaveButton" type="button">保存并测试</button>
+              <button id="aiClearButton" type="button">清除配置</button>
+            </div>
+          </details>
+        </section>
+        <section class="ai-config-card sync-card" id="syncCard">
+          <div class="settings-group-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8a5 5 0 0 1 8.4-3.6L18 7M17 16a5 5 0 0 1-8.4 3.6L6 17M18 4v3h-3M6 20v-3h3"></path></svg><span>跨设备同步</span></div>
+          <div class="ai-config-head">
+            <div><h2>同步书单与口味 <button class="info-tip" type="button" aria-label="同步范围说明" aria-expanded="false" data-tip="只同步书单和口味记录，不同步 AI 配置、筛选或主题。">!</button></h2></div>
+            <span id="syncBadge">正在检查</span>
+          </div>
+          <div class="sync-status-line" id="syncStatusLine" hidden><span id="syncStatusText">已连接</span><button id="syncNowButton" type="button">立即同步</button></div>
+          <div class="sync-token-panel">
+            <div><strong>同步令牌 <button class="info-tip" id="syncTokenHint" type="button" aria-label="同步令牌说明" aria-expanded="false" data-tip="粘贴令牌连接；本机有记录再生成令牌。">!</button></strong></div>
+            <div class="sync-token-row"><input id="syncJoinToken" type="text" autocomplete="off" placeholder="粘贴 mishu-sync- 开头的令牌"><button id="syncJoinButton" type="button">连接</button><button id="copySyncTokenButton" type="button" hidden>复制</button></div>
+            <button class="sync-primary-button" id="syncCreateButton" type="button">生成同步令牌</button>
+          </div>
+          <details class="ai-connect sync-manage" id="syncManage" hidden>
+            <summary>同步管理</summary>
+            <p class="sync-help">停用同步会退出全部设备，并清空同步记录。</p>
+            <div class="ai-form-actions"><button id="syncDisconnectButton" type="button">断开本机</button><button id="syncResetButton" type="button">停用并清空</button></div>
+          </details>
+        </section>
+        <section class="settings-card settings-group" id="dataSettings">
+          <div class="settings-group-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3h9A2.5 2.5 0 0 1 19 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 18.5zM8 8h8M8 12h8M8 16h5"></path></svg><span>记录与维护</span></div>
+          <button class="setting-row" id="exportButton" type="button"><span><strong>导出我的记录</strong><small>保存一份本机备份</small></span><svg class="row-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 11.5 12 16l4.5-4.5M5 20h14"></path></svg></button>
+          <label class="setting-row" for="importInput"><span><strong>恢复记录</strong><small>从觅书备份文件恢复</small></span><svg class="row-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V9M7.5 12.5 12 8l4.5 4.5M5 4h14"></path></svg><input id="importInput" type="file" accept="application/json" hidden></label>
+          <button class="setting-row danger" id="clearButton" type="button"><span><strong>清除个人记录</strong><small>清空本机书单、口味与已展示记录</small></span><svg class="row-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M9 7V4h6v3M8 10v7M12 10v7M16 10v7M7 7l1 14h8l1-14"></path></svg></button>
+        </section>
+        <p class="settings-footnote">热门只表示公开榜单表现，不等于观看人数。<a href="https://github.com/pipi242526/mishu" target="_blank" rel="noopener noreferrer">查看项目源码</a></p>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="主要栏目">
+      <button class="active" data-nav="discoverPage" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="m16 16 4 4"></path></svg><small>发现</small></button>
+      <button data-nav="libraryPage" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2H19v17H8.5A2.5 2.5 0 0 0 6 21.5z"></path><path d="M6 4.5v17A2.5 2.5 0 0 1 8.5 19"></path></svg><small>书单</small></button>
+      <button data-nav="profilePage" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg><small>口味</small></button>
+      <button data-nav="settingsPage" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M7 14v6"></path></svg><small>设置</small></button>
+    </nav>
+  </div>
+
+  <dialog class="book-dialog" id="bookDialog">
+    <button class="dialog-close" id="dialogCloseButton" type="button" aria-label="关闭">×</button>
+    <div class="dialog-book-head">
+      <img id="dialogCover" alt="">
+      <div><span id="dialogHeat"></span><h2 id="dialogTitle"></h2><p id="dialogAuthor"></p><div id="dialogMeta" class="dialog-meta"></div></div>
+    </div>
+    <p class="dialog-desc" id="dialogDesc"></p>
+    <div class="dialog-match" id="dialogMatch" hidden><strong>符合条件</strong><p id="dialogMatchText"></p></div>
+    <div class="dialog-ai" id="dialogAi" hidden><strong>AI 看点</strong><p id="dialogAiText"></p></div>
+    <div class="dialog-decisions">
+      <button id="dialogWantButton" type="button">♡ 想看</button>
+      <button id="dialogReadButton" type="button">✓ 看过</button>
+      <button id="dialogDislikeButton" type="button">× 不想看</button>
+    </div>
+    <div class="read-feedback" id="readFeedback" hidden><span>看完感觉如何？</span><button type="button" data-read-feedback="liked">喜欢，记入口味</button><button type="button" data-read-feedback="read">一般，只避免重复</button></div>
+    <div class="dislike-reasons" id="dislikeReasons" hidden><span>不喜欢哪里？</span><button type="button" data-dislike-reason="题材">题材</button><button type="button" data-dislike-reason="设定">设定</button><button type="button" data-dislike-reason="看过">看过了</button><button type="button" data-dislike-reason="平台">平台</button></div>
+    <div class="dialog-main-actions">
+      <button id="dialogCopyButton" type="button">复制书名</button>
+      <a id="dialogSourceLink" href="#" target="_blank" rel="noopener noreferrer">平台详情 ↗</a>
+    </div>
+  </dialog>
+
+  <section class="auth-gate" id="authGate" hidden aria-labelledby="authTitle">
+    <div class="auth-card">
+      <img class="brand-mark" src="/icons/logo-mark.png?v=60" alt="">
+      <h1 id="authTitle">打开觅书</h1>
+      <p>请输入访问口令。</p>
+      <label><span>访问口令</span><input id="accessCodeInput" type="password" autocomplete="current-password" enterkeyhint="go"></label>
+      <button id="authLoginButton" type="button">进入觅书</button>
+      <small id="authMessage"></small>
+    </div>
+  </section>
+
+  <div class="info-popover" id="infoPopover" role="tooltip" hidden></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/js/preference-model.js?v=60" defer></script>
+  <script src="/js/app-config.js?v=60" defer></script>
+  <script src="/js/app-state.js?v=60" defer></script>
+  <script src="/js/app-sync.js?v=60" defer></script>
+  <script src="/js/app.js?v=60" defer></script>
+</body>
+</html>

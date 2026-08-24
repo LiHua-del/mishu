@@ -1,0 +1,44 @@
+name: 问题反馈
+description: 报告可复现的功能或部署问题
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: 请勿提交访问口令、Cookie、同步令牌、AI 密钥或完整数据库。
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题说明
+      description: 实际发生了什么？预期是什么？
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开……
+        2. 选择……
+        3. 看到……
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 环境
+      placeholder: iPhone 15 / iOS 18 / Safari，或 Docker 版本
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 已脱敏日志或截图
+      description: 请先删除域名、IP、令牌、Cookie 和 API 密钥。
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已移除所有密钥、令牌、Cookie 和个人数据。
+          required: true

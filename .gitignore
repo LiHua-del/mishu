@@ -1,0 +1,28 @@
+# macOS / editors
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Python / Node caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+node_modules/
+
+# Local secrets and runtime state
+.env
+.env.*
+!.env.example
+runtime-data/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+
+# Local output
+dist/
+build/
+coverage/
+*.log
