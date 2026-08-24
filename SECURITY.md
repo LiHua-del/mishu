@@ -1,24 +1,27 @@
-# 安全说明
+# 安全
 
-## 报告问题
+## 报告安全问题
 
-请优先使用 GitHub 仓库的 **Security → Report a vulnerability** 私密报告入口。若仓库尚未启用该入口，可先创建一个不含漏洞细节的 Issue，请维护者提供私密联系方式。
+发现安全问题，请通过 GitHub 的 [私密漏洞报告](https://github.com/pipi242526/mishu/security/advisories/new) 联系维护者。
 
-不要在公开 Issue、截图或日志中提交以下内容：
+> [!IMPORTANT]
+> 请勿在公开 Issue、截图或日志中披露漏洞细节和敏感信息。
 
-- `.env` 内容、访问口令或 `MISHU_SESSION_SECRET`
-- AI API 密钥
-- 同步令牌、会话 Cookie
-- `runtime-data/` 数据库或可识别个人口味的数据
+请说明受影响版本、复现步骤和可能造成的影响。如有临时处理办法，也请一并提供。
 
-报告中请包含受影响版本、复现条件、影响范围和建议修复方式；公开披露前请给维护者合理的修复时间。
+## 提交前请检查
 
-## 部署基线
+- 删除 `.env`、访问口令和 `MISHU_SESSION_SECRET`
+- 隐去 AI API 密钥、Cookie、令牌和设备凭据
+- 不要上传 `runtime-data/`、数据库或阅读偏好记录
 
-- 公网部署必须通过 HTTPS，并设置访问口令与独立的会话密钥。
-- 应用端口默认只绑定 `127.0.0.1`，由 Caddy 或 Nginx 反向代理。
-- 容器以非 root 用户运行，根文件系统只读，移除 Linux capabilities，并限制进程数。
-- `.env`、运行数据库、AI 密钥和同步记录均不应提交到 Git。
-- 公开来源结构可能变化；请定期在设置页查看“实时来源状态”，不要绕过平台访问限制。
+## 安全部署
 
-完整部署检查见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
+公开部署时：
+
+- 使用 HTTPS，并设置访问口令和独立的会话密钥。
+- 应用端口仅绑定 `127.0.0.1`，外部访问交给 Caddy 或 Nginx。
+- 不要把配置、运行数据、密钥和同步记录提交到 Git。
+- 定期查看设置页中的来源状态，及时更新失效的平台适配。
+
+完整配置见 [部署指南](docs/DEPLOYMENT.md)。
