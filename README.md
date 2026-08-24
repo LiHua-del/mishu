@@ -1,7 +1,7 @@
 <div align="center">
   <img src="web/icons/logo-mark.png" width="72" height="72" alt="觅书图标">
   <h1>觅书</h1>
-  <p>自托管的网络小说发现与筛选服务</p>
+  <p>可自行部署的网络小说发现工具，聚合多平台榜单，支持按频道、题材和阅读偏好筛选推荐。</p>
   <p>
     <a href="https://github.com/pipi242526/mishu/actions/workflows/ci.yml"><img alt="Tests" src="https://github.com/pipi242526/mishu/actions/workflows/ci.yml/badge.svg"></a>
     <img alt="Python 3.10+" src="https://img.shields.io/badge/Python-3.10%2B-C86B56?style=flat-square&logo=python&logoColor=white">
