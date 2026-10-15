@@ -21,6 +21,12 @@
 
 本项目仅展示书名、作者、封面、简介及平台链接，不提供小说正文。确认书目后，可复制书名至其他阅读工具中检索。
 
+## 热榜研究扩展
+
+在原版觅书基础上增加独立热榜研究页面：[打开热榜研究](http://127.0.0.1:8001/hotlists.html)。支持五站已接入榜单、全部频道与分类、范围联网刷新、每日快照及近 7／30 天跟踪。保留原版六本推荐与 AGPL-3.0 许可证。
+
+用法、来源范围和数据边界见 [热榜研究说明](docs/HOTLISTS.md)，版本记录见 [CHANGELOG](CHANGELOG.md)。
+
 ## ✨ 主要功能
 
 | 功能 | 说明 |
@@ -76,10 +82,10 @@ docker compose up -d --build
 
 ```bash
 docker compose ps
-curl --fail http://127.0.0.1:8080/api/health
+curl --fail http://127.0.0.1:8001/api/health
 ```
 
-服务启动后访问 <http://127.0.0.1:8080>。默认端口仅绑定本机回环地址；公网使用时应通过 Caddy 或 Nginx 提供 HTTPS。配置、备份和升级方式见 [部署指南](docs/DEPLOYMENT.md)。
+服务启动后访问 <http://127.0.0.1:8001>。默认端口仅绑定本机回环地址；公网使用时应通过 Caddy 或 Nginx 提供 HTTPS。配置、备份和升级方式见 [部署指南](docs/DEPLOYMENT.md)。
 
 > 觅书依赖服务端接口和 SQLite，不能直接部署到 GitHub Pages。
 
@@ -90,16 +96,17 @@ curl --fail http://127.0.0.1:8080/api/health
 ```bash
 git clone https://github.com/pipi242526/mishu.git
 cd mishu
-python3 server.py
+HOST=127.0.0.1 python3 server.py
 ```
 
-服务启动后访问 <http://127.0.0.1:8080>。直接打开 `web/index.html` 无法使用实时推荐、同步及本地数据功能。
+服务启动后访问 <http://127.0.0.1:8001>。直接打开 `web/index.html` 无法使用实时推荐、同步及本地数据功能。
 
 ## ⚙️ 配置
 
 完整配置见 [.env.example](.env.example)。常用项目如下：
 
-- `MISHU_PORT`：本机监听端口
+- `MISHU_PORT`：Docker 的本机映射端口，默认 8001
+- `PORT`：直接运行 Python 时的监听端口，默认 8001；Python 不自动加载 `.env`
 - `MISHU_ACCESS_CODE`：公网访问口令
 - `MISHU_SESSION_SECRET`：会话与同步凭据签名密钥
 - `MISHU_COOKIE_SECURE`：通过 HTTPS 使用时设为 `1`

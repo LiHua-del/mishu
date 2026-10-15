@@ -3,7 +3,7 @@
 觅书适合部署在一台低配置 Linux VPS 上。推荐结构是：
 
 ```text
-Internet → HTTPS (Caddy / Nginx) → 127.0.0.1:8080 → Docker 容器 → SQLite 数据卷
+Internet → HTTPS (Caddy / Nginx) → 127.0.0.1:8001 → Docker 容器 → SQLite 数据卷
 ```
 
 ## 1. 准备配置
@@ -33,20 +33,20 @@ AI 和 Brave 搜索均为可选项。没有配置时，基础推荐、平台书�
 ```bash
 docker compose up -d --build
 docker compose ps
-curl --fail http://127.0.0.1:8080/api/health
+curl --fail http://127.0.0.1:8001/api/health
 ```
 
 默认只监听 VPS 本机回环地址，不直接暴露容器端口。
 
 ## 3. 配置 HTTPS
 
-将 `deploy/Caddyfile.example` 中的域名改成自己的域名，然后让 Caddy 代理到 `127.0.0.1:8080`。代理必须保留 `X-Forwarded-Proto`；Caddy 默认会正确设置，应用据此发送 Secure Cookie。
+将 `deploy/Caddyfile.example` 中的域名改成自己的域名，然后让 Caddy 代理到 `127.0.0.1:8001`。代理必须保留 `X-Forwarded-Proto`；Caddy 默认会正确设置，应用据此发送 Secure Cookie。
 
 若使用 Nginx，核心配置为：
 
 ```nginx
 location / {
-    proxy_pass http://127.0.0.1:8080;
+    proxy_pass http://127.0.0.1:8001;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header X-Real-IP $remote_addr;
@@ -69,7 +69,7 @@ docker compose up -d --build
 ```bash
 docker compose ps
 docker compose logs --tail=100 mishu
-curl --fail http://127.0.0.1:8080/api/health
+curl --fail http://127.0.0.1:8001/api/health
 ```
 
 回滚代码时不要删除 `runtime-data/`；先停止容器，再恢复经过验证的数据库备份。
