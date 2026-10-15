@@ -29,6 +29,7 @@ from urllib.request import Request, urlopen
 
 
 from mishu.config import *
+from mishu import hotlists
 from mishu.auth import auth_attempt_allowed, clear_auth_failures, record_auth_failure, session_token, valid_session_token
 from mishu.ai import (
     analyze_books as _analyze_books,
@@ -1685,6 +1686,17 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path.startswith("/api/") and not self.require_auth():
             return
+        if path == "/api/hotlists":
+            params = parse_qs(parsed.query)
+            board_id = (params.get("board") or [""])[0]
+            if not board_id:
+                self.send_json({"ok": True, "boards": hotlists.CATALOG})
+                return
+            try:
+                self.send_json(hotlists.view(board_id, int((params.get("days") or ["0"])[0])))
+            except ValueError as error:
+                self.send_json({"ok": False, "error": str(error)}, HTTPStatus.BAD_REQUEST)
+            return
         if path == "/api/books":
             self.send_json({"ok": False, "code": "local_catalog_disabled", "message": "觅书不提供内置书库，请使用实时平台搜索。"}, HTTPStatus.GONE)
             return
@@ -1892,6 +1904,23 @@ class Handler(BaseHTTPRequestHandler):
 
     def _do_POST(self) -> None:
         path = urlparse(self.path).path
+        if path == "/api/hotlists/refresh":
+            if not self.require_auth():
+                return
+            payload = self.read_json()
+            board_id = str(payload.get("board", ""))
+            if board_id not in hotlists.BOARDS:
+                self.send_json({"ok": False, "error": "无效榜单"}, HTTPStatus.BAD_REQUEST)
+                return
+            if not SEARCH_SEMAPHORE.acquire(blocking=False):
+                self.send_json({"ok": False, "error": "采集中，请稍后重试"}, HTTPStatus.TOO_MANY_REQUESTS)
+                return
+            try:
+                result = hotlists.collect(board_id, fetch_html)
+                self.send_json(result, HTTPStatus.OK if result["ok"] else HTTPStatus.BAD_GATEWAY)
+            finally:
+                SEARCH_SEMAPHORE.release()
+            return
         if path == "/api/auth/login":
             address = str(self.client_address[0] or "unknown")
             if not auth_attempt_allowed(address):
@@ -2141,7 +2170,9 @@ class MishuHTTPServer(ThreadingHTTPServer):
 
 def main() -> None:
     init_db()
+    hotlists.init()
     server = MishuHTTPServer((os.environ.get("HOST", "0.0.0.0"), PORT), Handler)
+    hotlists.start_daily(fetch_html)
     print(f"觅书服务已启动：http://127.0.0.1:{PORT}")
     try:
         server.serve_forever()

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>觅书 · 热榜研究</title>
+<link rel="stylesheet" href="/css/hotlists.css?v=2"><script defer src="/js/hotlists.js?v=2"></script></head>
+<body><main>
+<header><a href="/">觅书 / 小说发现</a><span>选题研究 · 官方来源</span></header>
+<section class="hero"><div><p class="eyebrow">从最新榜单，看读者选择</p><h1>热榜研究</h1><p>分平台、分频道跟踪。先看持续上榜，再看排名变化。</p></div><span class="pill">五个平台 · 每日快照</span></section>
+<section class="filters" aria-label="榜单筛选">
+<label>平台<select id="platform"><option>番茄</option><option>起点</option><option>七猫</option><option>书旗</option><option>QQ阅读</option></select></label>
+<label>频道<select id="audience"><option value="">全部频道</option><option value="male">男频</option><option value="female">女频</option></select></label>
+<label>分类<select id="category"></select></label>
+<label>官方榜单<select id="board"></select></label>
+<label>观察范围<select id="days"><option value="0">最新已采集榜单</option><option value="7">近 7 天跟踪</option><option value="30">近 30 天跟踪</option></select></label>
+<button id="refresh">联网刷新当前范围</button></section>
+<p id="feedback" role="status" aria-live="polite"></p>
+<section class="summary"><h2 id="heading">正在读取榜单</h2><p id="meta"></p><p id="coverage"></p><a id="source" target="_blank" rel="noopener noreferrer" hidden>查看官方原榜 ↗</a></section>
+<div id="table" class="table-wrap"></div>
+<footer><p>每日快照：服务运行期间自动采集，每天北京时间 16:00 后更新；首次启动补采。电脑休眠或服务关闭期间无法采集，恢复后补采当前榜单，无法补出遗漏日期。</p><p>近 7／30 天跟踪是本地观察记录，不是官方周／月榜。每天保留最后一次成功采集；只在同一榜单、同一统计周期内比较。数据缺失不视作热度为零。结果仅覆盖当前入口公开条目。</p><p>番茄分类范围来自当前已接入分类表，并非全站穷尽；起点女频暂未接入。不同平台的在读、热度、月票不能直接相加。</p></footer>
+</main></body></html>
