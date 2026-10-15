@@ -3,7 +3,7 @@
   <h1>觅书</h1>
   <p>可自行部署的网络小说发现工具，聚合多平台榜单，支持按频道、题材和阅读偏好筛选推荐。</p>
   <p>
-    <a href="https://github.com/pipi242526/mishu/actions/workflows/ci.yml"><img alt="Tests" src="https://github.com/pipi242526/mishu/actions/workflows/ci.yml/badge.svg"></a>
+    <a href="https://github.com/LiHua-del/mishu/actions/workflows/ci.yml"><img alt="Tests" src="https://github.com/LiHua-del/mishu/actions/workflows/ci.yml/badge.svg"></a>
     <img alt="Python 3.10+" src="https://img.shields.io/badge/Python-3.10%2B-C86B56?style=flat-square&logo=python&logoColor=white">
     <img alt="Docker" src="https://img.shields.io/badge/Docker-Ready-718273?style=flat-square&logo=docker&logoColor=white">
     <img alt="PWA" src="https://img.shields.io/badge/PWA-Ready-B47A3B?style=flat-square">
@@ -48,7 +48,7 @@
 #### 1. 获取项目
 
 ```bash
-git clone https://github.com/pipi242526/mishu.git
+git clone https://github.com/LiHua-del/mishu.git
 cd mishu
 ```
 
@@ -94,7 +94,7 @@ curl --fail http://127.0.0.1:8001/api/health
 本地运行需要 Python 3.10 或更高版本，无第三方运行依赖。
 
 ```bash
-git clone https://github.com/pipi242526/mishu.git
+git clone https://github.com/LiHua-del/mishu.git
 cd mishu
 HOST=127.0.0.1 python3 server.py
 ```

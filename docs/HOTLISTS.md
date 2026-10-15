@@ -30,6 +30,6 @@
 
 ## 版本管理
 
-保留上游 Git 历史与许可证。功能分支为 `feat/hotlists-research`，首个扩展版本标签为 `v0.1.0-hotlists.1`。后续从已发布版本新建分支，检查上游变更后合并，禁止覆盖未提交修改或强推发布历史。
+代码仓库：https://github.com/LiHua-del/mishu 。`origin` 是该 Fork，`upstream` 是 https://github.com/pipi242526/mishu 。主分支 `main` 提供整合版，保留上游 Git 历史与许可证。功能分支为 `feat/hotlists-research`，首个扩展版本标签为 `v0.1.0-hotlists.1`。后续从已发布版本新建分支，检查上游变更后合并，禁止覆盖未提交修改或强推发布历史。
 
 可用 `git log --oneline --decorate` 和 `git show v0.1.0-hotlists.1` 查看版本。回退时先停服、备份数据，再从目标标签创建新分支；不删除运行数据。数据库、日志、个人配置、原始采集页面和小说稿件不提交到代码仓库。

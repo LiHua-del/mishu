@@ -1,7 +1,8 @@
 # 觅书热榜扩展
 
 ## 工作规则
-- 本仓库基于 pipi242526/mishu，保留上游历史与 AGPL-3.0 许可证。
+- 本仓库为 LiHua-del/mishu，基于 pipi242526/mishu，保留上游历史与 AGPL-3.0 许可证。
+- origin 指向 LiHua-del/mishu（SSH 推送），upstream 指向原作者仓库；主分支 main，保留 feat/hotlists-research 与版本标签。
 - Python 3.10+ 标准库后端，原生 HTML/CSS/JavaScript 前端。
 - 本地启动：`HOST=127.0.0.1 python3 server.py`；默认端口 8001。
 - 运行数据通过 MISHU_DATA_DIR 指定，默认 runtime-data；不要提交数据库、原始页面、日志、凭据、小说正文。
@@ -18,4 +19,4 @@
 - 首个扩展版本使用 v0.1.0-hotlists.1，保留上游基线 8eabc4f。
 
 ## 会话历史
-- 2026-10-15：整理本地改造、统一端口及部署文档，准备提交与推送。
+- 2026-10-15：整理本地改造、统一端口及部署文档；公开 Fork 位于 LiHua-del/mishu，原功能版本标签 v0.1.0-hotlists.1 保持不变，后续文档修订单独提交。
